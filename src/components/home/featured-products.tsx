@@ -1,23 +1,19 @@
 import Link from "next/link"
-import { Button } from "../ui/button"
-import { ProductCard } from "../product/ProductCard"
-import { APIResponse } from "../../types/api"
-import { ProductListResponse } from "../../types/product"
+import { Button } from "@/components/ui/button"
+import { ProductCard } from "@/components/product/ProductCard"
+import { ProductListResponse } from "@/types/product"
+import { api } from "@/lib/api"
 
-async function getFeaturedProducts(): Promise<APIResponse<ProductListResponse>> {
-  const res = await fetch("http://localhost:8090/api/products?limit=12", {
+async function getFeaturedProducts(): Promise<ProductListResponse> {
+  const res = await api.get(process.env.NEXT_PUBLIC_API_URL + "/products?limit=12", {
     cache: "no-store",
   })
-  if (!res.ok) {
-    throw new Error("Network response was not ok")
-  }
-  const data: APIResponse<ProductListResponse> = await res.json()
-  return data
+  return res.data
 }
 
 export async function FeaturedProducts() {
   const data = await getFeaturedProducts()
-  const { products } = data.data
+  const { products } = data
 
   return (
     <div className="py-8">

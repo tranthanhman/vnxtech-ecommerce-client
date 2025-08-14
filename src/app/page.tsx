@@ -6,13 +6,7 @@ import { NewsSection } from "../components/home/news-section"
 import { api } from "@/lib/api"
 
 export default async function HomePage() {
-  let categories = null;
-  try {
-    categories = await api.get(process.env.NEXT_PUBLIC_API_URL + "/category")
-  } catch (error) {
-    console.error("Failed to fetch categories:", error);
-    categories = { data: [] }; // Fallback data
-  }
+  const categories = await api.get(process.env.NEXT_PUBLIC_API_URL + "/category")
   return (
     <div>
       <HeroBanner />
